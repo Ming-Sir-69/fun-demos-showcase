@@ -1,0 +1,319 @@
+{
+  "diagram_type": "flowchart_decision_tree",
+  "title": "人机边界与 8D 阶段流转",
+  "page_name": "人机边界与 8D 阶段流转",
+  "subtitle": "Human-in-the-loop Gates Across 8D Workflow",
+  "style_profile": "enterprise_consulting_v10",
+  "canvas": {
+    "width": 1680,
+    "height": 1280
+  },
+  "layout": {
+    "mode": "stage_gated_swimlane",
+    "row_gap": 34,
+    "col_gap": 80
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "flow_process",
+      "title": "D1 组建团队",
+      "lines": [
+        "AI 自动拉群"
+      ],
+      "icon": "users",
+      "lane": "stage"
+    },
+    {
+      "id": "d2",
+      "type": "flow_process",
+      "title": "D2 描述问题",
+      "lines": [
+        "AI 提取结构"
+      ],
+      "icon": "search",
+      "lane": "stage"
+    },
+    {
+      "id": "d3",
+      "type": "flow_process",
+      "title": "D3 围堵措施",
+      "lines": [
+        "AI 给出方案"
+      ],
+      "icon": "shield",
+      "lane": "stage"
+    },
+    {
+      "id": "d4",
+      "type": "flow_process",
+      "title": "D4 根因分析",
+      "lines": [
+        "AI 汇总假设与证据"
+      ],
+      "icon": "brain",
+      "lane": "stage"
+    },
+    {
+      "id": "gate_d4",
+      "type": "flow_decision",
+      "title": "强制人工签字",
+      "lines": [
+        "确认根因"
+      ],
+      "icon": "user",
+      "lane": "human"
+    },
+    {
+      "id": "sign_d4",
+      "type": "flow_condition",
+      "title": "签字通过",
+      "lane": "status"
+    },
+    {
+      "id": "d5",
+      "type": "flow_process",
+      "title": "D5 永久对策",
+      "lines": [
+        "AI 生成对策草案"
+      ],
+      "icon": "tool",
+      "lane": "stage"
+    },
+    {
+      "id": "gate_d5",
+      "type": "flow_decision",
+      "title": "强制人工签字",
+      "lines": [
+        "确认对策"
+      ],
+      "icon": "debate",
+      "lane": "human"
+    },
+    {
+      "id": "sign_d5",
+      "type": "flow_condition",
+      "title": "签字通过",
+      "lane": "status"
+    },
+    {
+      "id": "d6",
+      "type": "flow_process",
+      "title": "D6 验证措施",
+      "lines": [
+        "AI 对比数据"
+      ],
+      "icon": "check_circle",
+      "lane": "stage"
+    },
+    {
+      "id": "d7",
+      "type": "flow_process",
+      "title": "D7 预防措施",
+      "lines": [
+        "AI 生成预防方案"
+      ],
+      "icon": "key",
+      "lane": "stage"
+    },
+    {
+      "id": "gate_d7",
+      "type": "flow_decision",
+      "title": "强制人工签字",
+      "lines": [
+        "确认预防"
+      ],
+      "icon": "target",
+      "lane": "human"
+    },
+    {
+      "id": "sign_d7",
+      "type": "flow_condition",
+      "title": "签字通过",
+      "lane": "status"
+    },
+    {
+      "id": "d8",
+      "type": "flow_process",
+      "title": "D8 闭环与蒸馏",
+      "lines": [
+        "AI 生成入库草稿"
+      ],
+      "icon": "database",
+      "lane": "stage"
+    },
+    {
+      "id": "close",
+      "type": "flow_decision",
+      "title": "人工终审",
+      "lines": [
+        "确认是否入库"
+      ],
+      "icon": "message",
+      "lane": "human"
+    },
+    {
+      "id": "archive",
+      "type": "flow_condition",
+      "title": "入库",
+      "lane": "status"
+    },
+    {
+      "id": "db",
+      "type": "flow_result",
+      "title": "岗位知识库",
+      "lines": [
+        "按岗位 / 产品线沉淀"
+      ],
+      "icon": "book",
+      "lane": "knowledge"
+    }
+  ],
+  "rows": [
+    {
+      "node_ids": [
+        "d1"
+      ]
+    },
+    {
+      "node_ids": [
+        "d2"
+      ]
+    },
+    {
+      "node_ids": [
+        "d3"
+      ]
+    },
+    {
+      "node_ids": [
+        "d4",
+        "gate_d4",
+        "sign_d4"
+      ]
+    },
+    {
+      "node_ids": [
+        "d5",
+        "gate_d5",
+        "sign_d5"
+      ]
+    },
+    {
+      "node_ids": [
+        "d6"
+      ]
+    },
+    {
+      "node_ids": [
+        "d7",
+        "gate_d7",
+        "sign_d7"
+      ]
+    },
+    {
+      "node_ids": [
+        "d8",
+        "close",
+        "archive",
+        "db"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "d1",
+      "target": "d2",
+      "type": "control_flow"
+    },
+    {
+      "source": "d2",
+      "target": "d3",
+      "type": "control_flow"
+    },
+    {
+      "source": "d3",
+      "target": "d4",
+      "type": "control_flow"
+    },
+    {
+      "source": "d4",
+      "target": "gate_d4",
+      "type": "agent_flow"
+    },
+    {
+      "source": "gate_d4",
+      "target": "sign_d4",
+      "type": "agent_flow"
+    },
+    {
+      "source": "sign_d4",
+      "target": "d5",
+      "type": "agent_flow"
+    },
+    {
+      "source": "d5",
+      "target": "gate_d5",
+      "type": "agent_flow"
+    },
+    {
+      "source": "gate_d5",
+      "target": "sign_d5",
+      "type": "agent_flow"
+    },
+    {
+      "source": "sign_d5",
+      "target": "d6",
+      "type": "agent_flow"
+    },
+    {
+      "source": "d6",
+      "target": "d7",
+      "type": "control_flow"
+    },
+    {
+      "source": "d7",
+      "target": "gate_d7",
+      "type": "agent_flow"
+    },
+    {
+      "source": "gate_d7",
+      "target": "sign_d7",
+      "type": "agent_flow"
+    },
+    {
+      "source": "sign_d7",
+      "target": "d8",
+      "type": "agent_flow"
+    },
+    {
+      "source": "d8",
+      "target": "close",
+      "type": "control_flow"
+    },
+    {
+      "source": "close",
+      "target": "archive",
+      "type": "agent_flow"
+    },
+    {
+      "source": "archive",
+      "target": "db",
+      "type": "knowledge_flow"
+    }
+  ],
+  "legend": [
+    {
+      "edge_type": "control_flow",
+      "label": "AI 自动推进 / 阶段流转"
+    },
+    {
+      "edge_type": "agent_flow",
+      "label": "强制人工签字 / 人工终审"
+    },
+    {
+      "edge_type": "knowledge_flow",
+      "label": "经验沉淀 / 入库"
+    }
+  ]
+}

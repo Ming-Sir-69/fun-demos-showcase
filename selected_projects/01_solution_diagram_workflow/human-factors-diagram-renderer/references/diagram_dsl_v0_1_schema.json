@@ -1,0 +1,608 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ming-sir.local/diagram-dsl-v0.1.schema.json",
+  "title": "Controlled Diagram DSL v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "diagram_type",
+    "title",
+    "style_profile",
+    "canvas",
+    "edges"
+  ],
+  "properties": {
+    "diagram_type": {
+      "enum": [
+        "layered_architecture",
+        "flowchart_decision_tree",
+        "decision_tree",
+        "rag_sequence_flow"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "page_name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "subtitle": {
+      "type": "string"
+    },
+    "style_profile": {
+      "enum": [
+        "enterprise_consulting_v10"
+      ]
+    },
+    "canvas": {
+      "$ref": "#/$defs/canvas"
+    },
+    "layers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/layer"
+      }
+    },
+    "labels": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/label"
+      }
+    },
+    "layout": {
+      "$ref": "#/$defs/flow_layout"
+    },
+    "nodes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/node"
+      }
+    },
+    "rows": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/flow_row"
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/edge"
+      }
+    },
+    "legend": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/legend_item"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "diagram_type": {
+            "const": "layered_architecture"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "layers",
+          "legend"
+        ],
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "nodes"
+              ]
+            },
+            {
+              "required": [
+                "rows"
+              ]
+            },
+            {
+              "required": [
+                "layout"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "diagram_type": {
+            "enum": [
+              "flowchart_decision_tree",
+              "decision_tree",
+              "rag_sequence_flow"
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "layout",
+          "nodes",
+          "rows"
+        ],
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "layers"
+              ]
+            },
+            {
+              "required": [
+                "labels"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
+    },
+    "canvas": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "width",
+        "height"
+      ],
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 800,
+          "maximum": 4000
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 600,
+          "maximum": 4000
+        }
+      }
+    },
+    "icon": {
+      "enum": [
+        "target",
+        "alert",
+        "message",
+        "activity",
+        "truck",
+        "bar_chart",
+        "tool",
+        "package",
+        "check_circle",
+        "brain",
+        "users",
+        "debate",
+        "dollar",
+        "smartphone",
+        "database_local",
+        "code",
+        "server",
+        "layers",
+        "vector",
+        "search",
+        "book",
+        "filter",
+        "plug",
+        "key",
+        "shield",
+        "user",
+        "cpu",
+        "app",
+        "database",
+        "stack"
+      ]
+    },
+    "node_type": {
+      "enum": [
+        "role",
+        "ai_core",
+        "system",
+        "knowledge",
+        "knowledge_wide",
+        "platform",
+        "edge_label",
+        "flow_start",
+        "flow_process",
+        "flow_decision",
+        "flow_condition",
+        "flow_request",
+        "flow_filter",
+        "flow_data",
+        "flow_result",
+        "flow_output"
+      ]
+    },
+    "edge_type": {
+      "enum": [
+        "control_flow",
+        "system_interface",
+        "platform_support",
+        "agent_flow",
+        "knowledge_flow",
+        "label_ingress_solid",
+        "label_ingress_knowledge"
+      ]
+    },
+    "layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "index",
+        "title",
+        "height",
+        "gap_after"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "index": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "height": {
+          "type": "number",
+          "minimum": 60
+        },
+        "gap_after": {
+          "type": "number",
+          "minimum": 0
+        },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/node"
+          }
+        },
+        "groups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/group"
+          }
+        }
+      },
+      "anyOf": [
+        {
+          "required": [
+            "nodes"
+          ]
+        },
+        {
+          "required": [
+            "groups"
+          ]
+        }
+      ]
+    },
+    "group": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type",
+        "title",
+        "nodes"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "type": {
+          "enum": [
+            "group_existing",
+            "group_infra"
+          ]
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "grid": {
+          "type": "string",
+          "pattern": "^[0-9]+x[0-9]+|[0-9]+\\+[0-9]+$"
+        },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/node"
+          }
+        }
+      }
+    },
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type",
+        "title"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "type": {
+          "$ref": "#/$defs/node_type"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "subtitle": {
+          "type": "string"
+        },
+        "lines": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "icon": {
+          "$ref": "#/$defs/icon"
+        },
+        "layout_hint": {
+          "type": "object"
+        },
+        "lane": {
+          "enum": [
+            "stage",
+            "human",
+            "status",
+            "knowledge"
+          ]
+        }
+      },
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "x"
+            ]
+          },
+          {
+            "required": [
+              "y"
+            ]
+          },
+          {
+            "required": [
+              "w"
+            ]
+          },
+          {
+            "required": [
+              "h"
+            ]
+          },
+          {
+            "required": [
+              "fillColor"
+            ]
+          },
+          {
+            "required": [
+              "strokeColor"
+            ]
+          },
+          {
+            "required": [
+              "style"
+            ]
+          }
+        ]
+      }
+    },
+    "label": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type",
+        "title",
+        "visual_family",
+        "x",
+        "y",
+        "w",
+        "h"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^label_[a-z0-9_]+$"
+        },
+        "type": {
+          "const": "edge_label"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "visual_family": {
+          "enum": [
+            "solid_main",
+            "dashed_agent",
+            "dotted_knowledge"
+          ]
+        },
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "w": {
+          "type": "number",
+          "minimum": 40
+        },
+        "h": {
+          "type": "number",
+          "minimum": 16
+        },
+        "compact": {
+          "type": "boolean"
+        },
+        "max_w": {
+          "type": "number",
+          "minimum": 40
+        },
+        "min_w": {
+          "type": "number",
+          "minimum": 40
+        }
+      }
+    },
+    "flow_layout": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "enum": [
+            "row_grid",
+            "decision_tree_bus",
+            "stage_gated_snake",
+            "stage_gated_swimlane",
+            "rag_sequence_flow"
+          ]
+        },
+        "row_gap": {
+          "type": "number",
+          "minimum": 0
+        },
+        "col_gap": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "flow_row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "node_ids"
+      ],
+      "properties": {
+        "node_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "gap": {
+          "type": "number",
+          "minimum": 0
+        },
+        "direction": {
+          "enum": [
+            "ltr",
+            "rtl"
+          ]
+        }
+      }
+    },
+    "edge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "target",
+        "type"
+      ],
+      "properties": {
+        "source": {
+          "type": "string"
+        },
+        "target": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/$defs/edge_type"
+        },
+        "label": {
+          "type": "string"
+        }
+      },
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "waypoints"
+            ]
+          },
+          {
+            "required": [
+              "points"
+            ]
+          },
+          {
+            "required": [
+              "style"
+            ]
+          },
+          {
+            "required": [
+              "strokeColor"
+            ]
+          },
+          {
+            "required": [
+              "endArrow"
+            ]
+          },
+          {
+            "required": [
+              "exitX"
+            ]
+          },
+          {
+            "required": [
+              "entryX"
+            ]
+          }
+        ]
+      }
+    },
+    "legend_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "edge_type",
+        "label"
+      ],
+      "properties": {
+        "edge_type": {
+          "$ref": "#/$defs/edge_type"
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

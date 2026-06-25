@@ -1,0 +1,232 @@
+{
+  "diagram_type": "rag_sequence_flow",
+  "title": "隔离式知识检索 RAG 数据流（PQE 案例）",
+  "page_name": "隔离式知识检索 RAG 数据流（PQE 案例）",
+  "subtitle": "Role / Product / Human-Reviewed Filtered Retrieval Flow",
+  "style_profile": "enterprise_consulting_v10",
+  "canvas": {
+    "width": 1600,
+    "height": 1060
+  },
+  "layout": {
+    "mode": "rag_sequence_flow",
+    "row_gap": 30
+  },
+  "nodes": [
+    {
+      "id": "user_ask",
+      "type": "flow_start",
+      "title": "用户提问",
+      "lines": [
+        "询问类似外观划伤案例"
+      ],
+      "icon": "user",
+      "layout_hint": {
+        "participant": "user"
+      }
+    },
+    {
+      "id": "main_parse",
+      "type": "ai_core",
+      "title": "主控 Agent",
+      "lines": [
+        "识别问题意图",
+        "拆解检索任务"
+      ],
+      "icon": "brain",
+      "layout_hint": {
+        "participant": "main"
+      }
+    },
+    {
+      "id": "pqe_task",
+      "type": "ai_core",
+      "title": "PQE Agent",
+      "lines": [
+        "查阅历史划伤",
+        "制程对策"
+      ],
+      "icon": "activity",
+      "layout_hint": {
+        "participant": "pqe"
+      }
+    },
+    {
+      "id": "pqe_query",
+      "type": "flow_request",
+      "title": "语义检索请求",
+      "lines": [
+        "Query: 外观划伤"
+      ],
+      "icon": "search",
+      "layout_hint": {
+        "participant": "pqe"
+      }
+    },
+    {
+      "id": "filter_guard",
+      "type": "flow_filter",
+      "title": "过滤器注入",
+      "lines": [
+        "限定 PQE 岗位经验",
+        "匹配当前产品线",
+        "仅取人工审核内容"
+      ],
+      "icon": "filter",
+      "layout_hint": {
+        "participant": "db"
+      }
+    },
+    {
+      "id": "vector_db",
+      "type": "knowledge_wide",
+      "title": "向量数据库",
+      "subtitle": "Chroma / Qdrant",
+      "icon": "database",
+      "layout_hint": {
+        "participant": "db"
+      }
+    },
+    {
+      "id": "valid_history",
+      "type": "flow_data",
+      "title": "有效历史经验",
+      "lines": [
+        "仅返回 PQE 岗位",
+        "且已审核内容"
+      ],
+      "icon": "book",
+      "layout_hint": {
+        "participant": "db"
+      }
+    },
+    {
+      "id": "pqe_advice",
+      "type": "flow_result",
+      "title": "带置信度建议",
+      "lines": [
+        "生成制程侧建议",
+        "标注证据来源"
+      ],
+      "icon": "check_circle",
+      "layout_hint": {
+        "participant": "pqe"
+      }
+    },
+    {
+      "id": "main_answer",
+      "type": "flow_output",
+      "title": "综合输出",
+      "lines": [
+        "8D 参考内容"
+      ],
+      "icon": "code",
+      "layout_hint": {
+        "participant": "main"
+      }
+    }
+  ],
+  "rows": [
+    {
+      "node_ids": [
+        "user_ask"
+      ]
+    },
+    {
+      "node_ids": [
+        "main_parse"
+      ]
+    },
+    {
+      "node_ids": [
+        "pqe_task"
+      ]
+    },
+    {
+      "node_ids": [
+        "pqe_query"
+      ]
+    },
+    {
+      "node_ids": [
+        "filter_guard"
+      ]
+    },
+    {
+      "node_ids": [
+        "vector_db"
+      ]
+    },
+    {
+      "node_ids": [
+        "valid_history"
+      ]
+    },
+    {
+      "node_ids": [
+        "pqe_advice"
+      ]
+    },
+    {
+      "node_ids": [
+        "main_answer"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "user_ask",
+      "target": "main_parse",
+      "type": "control_flow"
+    },
+    {
+      "source": "main_parse",
+      "target": "pqe_task",
+      "type": "agent_flow"
+    },
+    {
+      "source": "pqe_task",
+      "target": "pqe_query",
+      "type": "agent_flow"
+    },
+    {
+      "source": "pqe_query",
+      "target": "filter_guard",
+      "type": "knowledge_flow"
+    },
+    {
+      "source": "filter_guard",
+      "target": "vector_db",
+      "type": "knowledge_flow"
+    },
+    {
+      "source": "vector_db",
+      "target": "valid_history",
+      "type": "knowledge_flow"
+    },
+    {
+      "source": "valid_history",
+      "target": "pqe_advice",
+      "type": "knowledge_flow"
+    },
+    {
+      "source": "pqe_advice",
+      "target": "main_answer",
+      "type": "agent_flow"
+    }
+  ],
+  "legend": [
+    {
+      "edge_type": "control_flow",
+      "label": "用户输入 / 输出"
+    },
+    {
+      "edge_type": "agent_flow",
+      "label": "Agent 任务流"
+    },
+    {
+      "edge_type": "knowledge_flow",
+      "label": "检索 / 知识流"
+    }
+  ]
+}

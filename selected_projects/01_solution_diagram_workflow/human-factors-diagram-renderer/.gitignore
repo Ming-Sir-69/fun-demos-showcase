@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+logs/issues.jsonl
+logs/issues.md
+logs/screenshots/*
+!logs/screenshots/.gitkeep

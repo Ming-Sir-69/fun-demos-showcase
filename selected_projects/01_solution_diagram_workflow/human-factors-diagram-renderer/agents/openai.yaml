@@ -1,0 +1,23 @@
+interface:
+  display_name: "Human Factors Diagram Renderer"
+  short_description: "Human-readable draw.io diagram renderer"
+  default_prompt: "Use $human-factors-diagram-renderer to render a controlled JSON diagram into a validated draw.io file."
+policy:
+  allow_implicit_invocation: true
+behavior:
+  required_sequence:
+    - "Read or create controlled JSON DSL."
+    - "Run C0 schema validation before rendering."
+    - "Render through the bundled Python renderer."
+    - "Use diagrams.net/draw.io for final visual acceptance."
+  forbidden_outputs:
+    - "Do not write draw.io XML by hand."
+    - "Do not put mxCell, mxGeometry, style strings, coordinates, waypoints, or base64 icons in JSON DSL."
+    - "Do not use unofficial PNG/SVG previews as final visual truth."
+  issue_loop:
+    - "Record visual or semantic issues with scripts/log_issue.py."
+    - "Fix the lowest responsible layer: JSON, prompt, renderer, validators, or documentation."
+output_contract:
+  primary_artifact: ".drawio"
+  optional_exports: "PNG/PDF/SVG only through official draw.io Desktop when available."
+  user_review: "Final visual approval happens in diagrams.net/draw.io."

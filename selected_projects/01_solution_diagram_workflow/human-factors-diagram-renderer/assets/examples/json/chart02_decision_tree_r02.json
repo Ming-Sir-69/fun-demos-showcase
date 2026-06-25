@@ -1,0 +1,241 @@
+{
+  "diagram_type": "flowchart_decision_tree",
+  "title": "多 Agent 复合根因判断树",
+  "page_name": "多 Agent 复合根因判断树",
+  "subtitle": "最强业务逻辑 / Multi-Agent Composite Root Cause Decision Tree",
+  "style_profile": "enterprise_consulting_v10",
+  "canvas": {
+    "width": 1600,
+    "height": 980
+  },
+  "layout": {
+    "mode": "decision_tree_bus",
+    "row_gap": 54,
+    "col_gap": 36
+  },
+  "nodes": [
+    {
+      "id": "start",
+      "type": "flow_start",
+      "title": "异常发生：发现多个疑似诱因"
+    },
+    {
+      "id": "a1",
+      "type": "flow_process",
+      "title": "SQE Agent 报告",
+      "subtitle": "来料参数异常",
+      "icon": "truck"
+    },
+    {
+      "id": "a2",
+      "type": "flow_process",
+      "title": "PQE Agent 报告",
+      "subtitle": "制程温度偏移",
+      "icon": "activity"
+    },
+    {
+      "id": "q1",
+      "type": "flow_decision",
+      "title": "主控 Agent 发起交叉验证",
+      "lines": [
+        "去除单一因素，",
+        "不良是否单独复现？"
+      ]
+    },
+    {
+      "id": "cA",
+      "type": "flow_condition",
+      "title": "条件 A",
+      "lines": [
+        "去除温度偏移",
+        "来料异常不再导致不良"
+      ]
+    },
+    {
+      "id": "cB",
+      "type": "flow_condition",
+      "title": "条件 B",
+      "lines": [
+        "去除来料异常",
+        "温度偏移不再导致不良"
+      ]
+    },
+    {
+      "id": "cC",
+      "type": "flow_condition",
+      "title": "条件 C",
+      "lines": [
+        "去除任何一个",
+        "不良都会消失"
+      ]
+    },
+    {
+      "id": "cD",
+      "type": "flow_condition",
+      "title": "条件 D",
+      "lines": [
+        "两个因素都去除",
+        "不良依然存在"
+      ]
+    },
+    {
+      "id": "r1",
+      "type": "flow_result",
+      "title": "制程温度是主根因",
+      "lines": [
+        "来料异常是诱发条件"
+      ]
+    },
+    {
+      "id": "r2",
+      "type": "flow_result",
+      "title": "来料异常是主根因",
+      "lines": [
+        "制程温度是诱发条件"
+      ]
+    },
+    {
+      "id": "r3",
+      "type": "flow_result",
+      "title": "两者均为独立根因",
+      "lines": [
+        "需并列写入 D4 报告"
+      ]
+    },
+    {
+      "id": "r4",
+      "type": "flow_result",
+      "title": "判定：现有假设全错",
+      "lines": [
+        "触发 Agent 重新调研"
+      ]
+    },
+    {
+      "id": "final",
+      "type": "flow_output",
+      "title": "写入 8D 结构化 JSON"
+    }
+  ],
+  "rows": [
+    {
+      "node_ids": [
+        "start"
+      ],
+      "gap": 0
+    },
+    {
+      "node_ids": [
+        "a1",
+        "a2"
+      ],
+      "gap": 140
+    },
+    {
+      "node_ids": [
+        "q1"
+      ],
+      "gap": 0
+    },
+    {
+      "node_ids": [
+        "cA",
+        "cB",
+        "cC",
+        "cD"
+      ],
+      "gap": 28
+    },
+    {
+      "node_ids": [
+        "r1",
+        "r2",
+        "r3",
+        "r4"
+      ],
+      "gap": 28
+    },
+    {
+      "node_ids": [
+        "final"
+      ],
+      "gap": 0
+    }
+  ],
+  "edges": [
+    {
+      "source": "start",
+      "target": "a1",
+      "type": "control_flow"
+    },
+    {
+      "source": "start",
+      "target": "a2",
+      "type": "control_flow"
+    },
+    {
+      "source": "a1",
+      "target": "q1",
+      "type": "control_flow"
+    },
+    {
+      "source": "a2",
+      "target": "q1",
+      "type": "control_flow"
+    },
+    {
+      "source": "q1",
+      "target": "cA",
+      "type": "label_ingress_solid"
+    },
+    {
+      "source": "q1",
+      "target": "cB",
+      "type": "label_ingress_solid"
+    },
+    {
+      "source": "q1",
+      "target": "cC",
+      "type": "label_ingress_solid"
+    },
+    {
+      "source": "q1",
+      "target": "cD",
+      "type": "label_ingress_solid"
+    },
+    {
+      "source": "cA",
+      "target": "r1",
+      "type": "control_flow"
+    },
+    {
+      "source": "cB",
+      "target": "r2",
+      "type": "control_flow"
+    },
+    {
+      "source": "cC",
+      "target": "r3",
+      "type": "control_flow"
+    },
+    {
+      "source": "cD",
+      "target": "r4",
+      "type": "control_flow"
+    },
+    {
+      "source": "r1",
+      "target": "final",
+      "type": "control_flow"
+    },
+    {
+      "source": "r2",
+      "target": "final",
+      "type": "control_flow"
+    },
+    {
+      "source": "r3",
+      "target": "final",
+      "type": "control_flow"
+    }
+  ]
+}

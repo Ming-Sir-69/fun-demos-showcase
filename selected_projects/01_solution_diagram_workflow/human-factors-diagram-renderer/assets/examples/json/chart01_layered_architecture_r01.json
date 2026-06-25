@@ -1,0 +1,378 @@
+{
+  "diagram_type": "layered_architecture",
+  "title": "8D Flow 多智能体质量协同系统架构图",
+  "page_name": "8D Flow 多智能体质量协同系统架构图",
+  "subtitle": "Multi-Agent Quality Collaboration System",
+  "style_profile": "enterprise_consulting_v10",
+  "canvas": {
+    "width": 1600,
+    "height": 989
+  },
+  "layers": [
+    {
+      "id": "role",
+      "index": 1,
+      "title": "岗位层",
+      "height": 135,
+      "gap_after": 30,
+      "nodes": [
+        {
+          "id": "dqe",
+          "type": "role",
+          "title": "DQE",
+          "subtitle": "质量主责",
+          "icon": "target"
+        },
+        {
+          "id": "cqe",
+          "type": "role",
+          "title": "CQE",
+          "subtitle": "客户沟通",
+          "icon": "message"
+        },
+        {
+          "id": "pqe",
+          "type": "role",
+          "title": "PQE",
+          "subtitle": "制程分析",
+          "icon": "activity"
+        },
+        {
+          "id": "sqe",
+          "type": "role",
+          "title": "SQE",
+          "subtitle": "来料追溯",
+          "icon": "truck"
+        },
+        {
+          "id": "ie",
+          "type": "role",
+          "title": "IE",
+          "subtitle": "COQ成本",
+          "icon": "bar_chart"
+        },
+        {
+          "id": "eng",
+          "type": "role",
+          "title": "工程",
+          "subtitle": "设计根因",
+          "icon": "tool"
+        },
+        {
+          "id": "prod",
+          "type": "role",
+          "title": "生产",
+          "subtitle": "围堵执行",
+          "icon": "package"
+        },
+        {
+          "id": "test",
+          "type": "role",
+          "title": "测试",
+          "subtitle": "验证方案",
+          "icon": "check_circle"
+        }
+      ]
+    },
+    {
+      "id": "ai",
+      "index": 2,
+      "title": "AI 协同层",
+      "height": 120,
+      "gap_after": 139,
+      "nodes": [
+        {
+          "id": "main_agent",
+          "type": "ai_core",
+          "title": "主控 Agent",
+          "lines": [
+            "任务分解、辩论协调",
+            "人机协同控制"
+          ],
+          "icon": "brain"
+        },
+        {
+          "id": "role_agent",
+          "type": "ai_core",
+          "title": "12 岗位 Agent",
+          "lines": [
+            "独立知识库、置信度评分",
+            "验证计划"
+          ],
+          "icon": "users"
+        },
+        {
+          "id": "debate",
+          "type": "ai_core",
+          "title": "辩论与投票引擎",
+          "lines": [
+            "交叉质询、3 轮上限",
+            "公开投票"
+          ],
+          "icon": "debate"
+        },
+        {
+          "id": "coq",
+          "type": "ai_core",
+          "title": "COQ 成本引擎",
+          "lines": [
+            "四类成本评估",
+            "方案对比"
+          ],
+          "icon": "dollar"
+        }
+      ]
+    },
+    {
+      "id": "business",
+      "index": 3,
+      "title": "业务系统层",
+      "height": 230,
+      "gap_after": 50,
+      "groups": [
+        {
+          "id": "existing_systems",
+          "type": "group_existing",
+          "title": "现有系统与客户端",
+          "grid": "2x2",
+          "nodes": [
+            {
+              "id": "ios",
+              "type": "system",
+              "title": "iOS App",
+              "subtitle": "SwiftUI",
+              "icon": "smartphone"
+            },
+            {
+              "id": "swiftdata",
+              "type": "system",
+              "title": "SwiftData",
+              "subtitle": "数据层",
+              "icon": "database_local"
+            },
+            {
+              "id": "llm_protocol",
+              "type": "system",
+              "title": "LLMServiceProtocol",
+              "icon": "code"
+            },
+            {
+              "id": "erp_mes_qms",
+              "type": "system",
+              "title": "ERP/MES/QMS",
+              "subtitle": "接口",
+              "icon": "server"
+            }
+          ]
+        },
+        {
+          "id": "agent_infra",
+          "type": "group_infra",
+          "title": "新建 Agent 基础设施",
+          "grid": "3+2",
+          "nodes": [
+            {
+              "id": "dify",
+              "type": "knowledge",
+              "title": "Dify",
+              "subtitle": "编排引擎",
+              "icon": "layers"
+            },
+            {
+              "id": "qdrant",
+              "type": "knowledge",
+              "title": "Chroma→Qdrant",
+              "subtitle": "向量数据库",
+              "icon": "vector"
+            },
+            {
+              "id": "audit",
+              "type": "knowledge",
+              "title": "知识审计",
+              "subtitle": "工作流",
+              "icon": "search"
+            },
+            {
+              "id": "knowledge_pool",
+              "type": "knowledge_wide",
+              "title": "岗位级知识池",
+              "subtitle": "知识基座",
+              "icon": "book"
+            },
+            {
+              "id": "distill",
+              "type": "knowledge_wide",
+              "title": "经验萃馏",
+              "subtitle": "流水线",
+              "icon": "filter"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "platform",
+      "index": 4,
+      "title": "平台底座层",
+      "height": 115,
+      "gap_after": 10,
+      "nodes": [
+        {
+          "id": "ipaas",
+          "type": "platform",
+          "title": "iPaaS 数据集成平台",
+          "icon": "plug"
+        },
+        {
+          "id": "mdm",
+          "type": "platform",
+          "title": "MDM 主数据治理",
+          "icon": "key"
+        },
+        {
+          "id": "security",
+          "type": "platform",
+          "title": "Security & Compliance",
+          "subtitle": "全本地化部署、NDA 合规",
+          "icon": "shield"
+        }
+      ]
+    }
+  ],
+  "labels": [
+    {
+      "id": "label_business",
+      "type": "edge_label",
+      "title": "业务数据 / 系统接口",
+      "visual_family": "solid_main",
+      "x": 425,
+      "y": 470,
+      "w": 150,
+      "h": 30,
+      "compact": true
+    },
+    {
+      "id": "label_knowledge",
+      "type": "edge_label",
+      "title": "知识 / 编排 / 审计支撑",
+      "visual_family": "dotted_knowledge",
+      "x": 710,
+      "y": 420,
+      "w": 210,
+      "h": 30,
+      "compact": true,
+      "max_w": 180
+    }
+  ],
+  "edges": [
+    {
+      "source": "main_agent",
+      "target": "role_agent",
+      "type": "agent_flow"
+    },
+    {
+      "source": "role_agent",
+      "target": "debate",
+      "type": "agent_flow"
+    },
+    {
+      "source": "debate",
+      "target": "coq",
+      "type": "agent_flow"
+    },
+    {
+      "source": "dqe",
+      "target": "main_agent",
+      "type": "control_flow"
+    },
+    {
+      "source": "pqe",
+      "target": "role_agent",
+      "type": "control_flow"
+    },
+    {
+      "source": "eng",
+      "target": "debate",
+      "type": "control_flow"
+    },
+    {
+      "source": "test",
+      "target": "coq",
+      "type": "control_flow"
+    },
+    {
+      "source": "existing_systems",
+      "target": "label_business",
+      "type": "label_ingress_solid"
+    },
+    {
+      "source": "label_business",
+      "target": "main_agent",
+      "type": "control_flow"
+    },
+    {
+      "source": "agent_infra",
+      "target": "label_knowledge",
+      "type": "label_ingress_knowledge"
+    },
+    {
+      "source": "label_knowledge",
+      "target": "main_agent",
+      "type": "knowledge_flow"
+    },
+    {
+      "source": "agent_infra",
+      "target": "role_agent",
+      "type": "agent_flow"
+    },
+    {
+      "source": "agent_infra",
+      "target": "debate",
+      "type": "agent_flow"
+    },
+    {
+      "source": "agent_infra",
+      "target": "coq",
+      "type": "agent_flow"
+    },
+    {
+      "source": "existing_systems",
+      "target": "agent_infra",
+      "type": "system_interface"
+    },
+    {
+      "source": "existing_systems",
+      "target": "ipaas",
+      "type": "platform_support"
+    },
+    {
+      "source": "existing_systems",
+      "target": "mdm",
+      "type": "platform_support"
+    },
+    {
+      "source": "agent_infra",
+      "target": "mdm",
+      "type": "platform_support"
+    },
+    {
+      "source": "agent_infra",
+      "target": "security",
+      "type": "platform_support"
+    }
+  ],
+  "legend": [
+    {
+      "edge_type": "control_flow",
+      "label": "主要数据 / 控制流"
+    },
+    {
+      "edge_type": "agent_flow",
+      "label": "Agent 协同 / 调度流"
+    },
+    {
+      "edge_type": "knowledge_flow",
+      "label": "知识 / 审计支撑流"
+    }
+  ]
+}
